@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    env:
+      KEDRO_DISABLE_TELEMETRY: "true"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Ruff (lint)
+        run: ruff check .
+
+      - name: Ruff (formato)
+        run: ruff format --check .
+
+      - name: Pruebas
+        run: pytest
+
+      # El dataset completo (~520 MB) no cabe en el repo: CI corre con la muestra
+      # versionada de 2,000 clientes (conf/muestra/catalog.yml).
+      - name: Ejecutar pipeline Kedro (muestra)
+        run: kedro run --env muestra
+
+      - name: Verificar outputs del pipeline
+        run: |
+          test -f data/03_primary/ventas_primarias.parquet
+          test -f data/05_model_input/tabla_modelo.parquet
+          test -f data/08_reporting/reporte_calidad_datos.json
+          test -f data/08_reporting/estabilidad_clientes.json
+          test -f data/08_reporting/segmentacion_kmeans.json
+          test -f data/08_reporting/perfil_regional.json
+          test -f data/08_reporting/perfil_temporal.json
+          test -f data/08_reporting/estabilidad_clientes.png
+          test -f data/08_reporting/segmentacion_kmeans.png
+          test -f data/08_reporting/perfil_regional.png
+          cat data/08_reporting/estabilidad_clientes.json

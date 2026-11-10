@@ -1,0 +1,6 @@
+# Ventanas temporales compartidas por transformacion y exploracion.
+# Las ventas van del 1-ene al 9-may-2018; mayo está incompleto y no se usa como objetivo.
+ventanas:
+  inicio_observacion: "2018-01-01"
+  corte: "2018-03-01"        # fin de la observación (excluido) e inicio del objetivo
+  fin_objetivo: "2018-05-01"  # fin del objetivo (excluido): marzo y abril completos

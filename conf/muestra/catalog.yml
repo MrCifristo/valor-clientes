@@ -1,0 +1,28 @@
+# Entorno "muestra": mismas salidas, pero lee la muestra versionada en el repo
+# (2,000 clientes elegidos al azar con todas sus compras). Lo usa GitHub Actions.
+# Uso: kedro run --env muestra
+# La muestra se regenera con: python scripts/crear_muestra.py
+
+ventas_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/muestra/sales.csv
+
+productos_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/muestra/products.csv
+
+categorias_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/muestra/categories.csv
+
+clientes_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/muestra/customers.csv
+
+ciudades_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/muestra/cities.csv
+
+paises_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/muestra/countries.csv

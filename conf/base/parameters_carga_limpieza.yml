@@ -1,0 +1,7 @@
+# Parámetros del pipeline carga_limpieza.
+carga_limpieza:
+  # Las ventas sin fecha (~1%) no se pueden asignar a un periodo; se eliminan.
+  eliminar_ventas_sin_fecha: true
+  # Rangos válidos: fuera de ellos la fila se descarta como error de captura.
+  cantidad_minima: 1
+  descuento_maximo: 1.0

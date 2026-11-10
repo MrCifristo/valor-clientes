@@ -1,0 +1,97 @@
+[build-system]
+requires = [
+    "setuptools",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+requires-python = ">=3.10"
+name = "valor_clientes"
+readme = "README.md"
+dynamic = [
+    "version",
+]
+dependencies = [
+    "kedro~=1.7.0",
+    "kedro-datasets[pandas-csvdataset,pandas-parquetdataset,json-jsondataset,matplotlib-matplotlibdataset]>=8.0",
+    "matplotlib>=3.8",
+    "pandas>=2.2",
+    "pyarrow>=15",
+    "scikit-learn>=1.5",
+    "scipy>=1.11",
+]
+
+[project.scripts]
+valor-clientes = "valor_clientes.__main__:main"
+
+[project.entry-points."kedro.hooks"]
+
+[project.optional-dependencies]
+notebooks = [
+    "ipykernel>=6",
+    "jupyterlab>=3.0",
+    "nbconvert>=7",
+]
+dev = [
+    "pytest-cov>=3,<7",
+    "pytest-mock>=1.7.1, <2.0",
+    "pytest~=7.2",
+    "ruff~=0.12.0",
+]
+
+[tool.setuptools.dynamic.version]
+attr = "valor_clientes.__version__"
+
+[tool.setuptools.packages.find]
+where = [
+    "src",
+]
+namespaces = false
+
+[tool.kedro]
+package_name = "valor_clientes"
+project_name = "valor-clientes"
+kedro_init_version = "1.7.0"
+tools = "['Linting', 'Testing', 'Custom Logging', 'Data Structure']"
+example_pipeline = "False"
+source_dir = "src"
+
+[tool.pytest.ini_options]
+addopts = "--cov-report term-missing --cov src/valor_clientes -ra"
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+]
+
+[tool.ruff]
+line-length = 88
+show-fixes = true
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+    "D",
+    "F",
+    "W",
+    "E",
+    "I",
+    "UP",
+    "PL",
+    "T201",
+]
+ignore = [
+    "E501",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D", "PLR2004"]
+"notebooks/**" = ["T201", "D", "E402", "PLR2004"]

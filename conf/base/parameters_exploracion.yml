@@ -1,0 +1,14 @@
+# Parámetros del pipeline exploracion (evidencia para elegir la pregunta).
+exploracion:
+  semilla: 42
+  # Número de segmentos que se prueban con K-Means.
+  k_segmentos: [3, 4, 5]
+  # Tamaño de la muestra para el coeficiente de silueta (es cuadrático en filas).
+  muestra_silueta: 5000
+  # Conjuntos de variables que se segmentan en cada periodo ("cat_*" = participación de cada categoría).
+  conjuntos_segmentacion:
+    rfm_clasico: [recencia_dias, n_compras, ingreso]
+    habitos: [recencia_dias, n_compras, dias_activos, pct_descuento, "cat_*"]
+    valor: [unidades_por_compra, ticket_medio]
+  # Número de segmentos que se muestra en la gráfica.
+  k_grafica: 4

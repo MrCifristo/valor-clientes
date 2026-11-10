@@ -1,0 +1,91 @@
+# Data Catalog del proyecto (dataset completo).
+# Los CSV crudos se descargan con scripts/descargar_datos.sh (ver README).
+# Para la muestra versionada en el repo: kedro run --env muestra
+# Documentación: https://docs.kedro.org/en/stable/catalog-data/introduction/
+
+# --- 01 raw ---------------------------------------------------------------
+ventas_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/sales.csv
+
+productos_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/products.csv
+
+categorias_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/categories.csv
+
+clientes_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/customers.csv
+
+ciudades_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/cities.csv
+
+paises_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/countries.csv
+
+# employees.csv no entra al pipeline: el reto 3 es sobre clientes, no vendedores.
+
+# --- 02 intermediate ------------------------------------------------------
+ventas_limpias:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/ventas_limpias.parquet
+
+# --- 03 primary -----------------------------------------------------------
+ventas_primarias:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/ventas_primarias.parquet
+
+# --- 05 model input -------------------------------------------------------
+tabla_modelo:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/tabla_modelo.parquet
+
+# --- 08 reporting ---------------------------------------------------------
+reporte_calidad_datos:
+  type: json.JSONDataset
+  filepath: data/08_reporting/reporte_calidad_datos.json
+  save_args: {indent: 2, ensure_ascii: false}
+
+estabilidad_clientes:
+  type: json.JSONDataset
+  filepath: data/08_reporting/estabilidad_clientes.json
+  save_args: {indent: 2, ensure_ascii: false}
+
+segmentacion_kmeans:
+  type: json.JSONDataset
+  filepath: data/08_reporting/segmentacion_kmeans.json
+  save_args: {indent: 2, ensure_ascii: false}
+
+perfil_regional:
+  type: json.JSONDataset
+  filepath: data/08_reporting/perfil_regional.json
+  save_args: {indent: 2, ensure_ascii: false}
+
+tabla_regional:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/tabla_regional.csv
+
+perfil_temporal:
+  type: json.JSONDataset
+  filepath: data/08_reporting/perfil_temporal.json
+  save_args: {indent: 2, ensure_ascii: false}
+
+grafica_estabilidad:
+  type: matplotlib.MatplotlibDataset
+  filepath: data/08_reporting/estabilidad_clientes.png
+  save_args: {dpi: 200}
+
+grafica_segmentacion:
+  type: matplotlib.MatplotlibDataset
+  filepath: data/08_reporting/segmentacion_kmeans.png
+  save_args: {dpi: 200}
+
+grafica_regiones:
+  type: matplotlib.MatplotlibDataset
+  filepath: data/08_reporting/perfil_regional.png
+  save_args: {dpi: 200}
