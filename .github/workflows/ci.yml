@@ -48,4 +48,17 @@ jobs:
           test -f data/08_reporting/estabilidad_clientes.png
           test -f data/08_reporting/segmentacion_kmeans.png
           test -f data/08_reporting/perfil_regional.png
+          test -f data/05_model_input/clientes_entrenamiento.parquet
+          test -f data/05_model_input/clientes_prueba.parquet
+          test -f data/06_models/modelo_final.pkl
+          test -f data/06_models/seleccion_modelo.json
+          test -f data/07_model_output/predicciones_prueba.parquet
+          test -f data/07_model_output/lista_campana.csv
+          test -f data/08_reporting/intentos_optuna.csv
+          test -f data/08_reporting/metricas_modelo.json
+          test -f data/08_reporting/importancia_variables.json
+          test -f data/08_reporting/auditoria_ciudades.csv
+          test -f data/08_reporting/captura_campana.png
+          test -f data/08_reporting/prediccion_vs_real.png
           cat data/08_reporting/estabilidad_clientes.json
+          python -c "import json; m = json.load(open('data/08_reporting/metricas_modelo.json')); print(json.dumps(m['impacto'], indent=2, ensure_ascii=False))"

@@ -8,7 +8,7 @@
 |---|---|---|
 | 1. Repo, Kedro, carga, limpieza, transformación, CI y README | Milton | Listo |
 | 2. Exploración y evidencia para la pregunta | Milton | Listo (`notebooks/01_exploracion.ipynb`) |
-| 3. Modelo: línea base, modelo, Optuna y evaluación | *Por asignar (George / Gian Paolo)* | Pendiente |
+| 3. Modelo: línea base, modelo, Optuna y evaluación | George | En revisión (`feat/modelo`) |
 | 4. Presentación del avance y póster final | *Por asignar (George / Gian Paolo)* | Pendiente |
 
 ## Para el bloque 3 (modelo)

@@ -88,7 +88,7 @@ def parametros_limpieza() -> dict:
     }
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def ventanas() -> dict[str, str]:
     return {
         "inicio_observacion": "2018-01-01",
@@ -97,7 +97,7 @@ def ventanas() -> dict[str, str]:
     }
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def ventas_sinteticas() -> pd.DataFrame:
     """Ventas primarias simuladas: cantidad fija por cliente, todo lo demás al azar."""
     rng = np.random.default_rng(0)

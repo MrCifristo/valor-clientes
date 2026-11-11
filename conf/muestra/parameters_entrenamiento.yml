@@ -1,0 +1,14 @@
+# Con la muestra de 2,000 clientes (CI) basta una búsqueda corta.
+optuna:
+  n_trials: 5
+  n_splits: 3
+  espacios:
+    lineal:
+      alpha: {tipo: float, bajo: 1.0e-4, alto: 100.0, log: true}
+      l1_ratio: {tipo: float, bajo: 0.01, alto: 1.0}
+    gradient_boosting:
+      learning_rate: {tipo: float, bajo: 0.01, alto: 0.3, log: true}
+      max_iter: {tipo: int, bajo: 50, alto: 300}
+      max_depth: {tipo: int, bajo: 2, alto: 8}
+      min_samples_leaf: {tipo: int, bajo: 20, alto: 400, log: true}
+      l2_regularization: {tipo: float, bajo: 1.0e-6, alto: 10.0, log: true}

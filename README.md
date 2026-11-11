@@ -26,6 +26,25 @@ George Albadr · Gian Paolo · Milton Beltrán.
 
 Detalle y decisiones en [`docs/decisiones.md`](docs/decisiones.md).
 
+## Resultados del modelo
+
+![Captura de la campaña](docs/figuras/captura_campana.png)
+
+Sobre 19,752 clientes de prueba que no se usaron para entrenar ni para ajustar hiperparámetros:
+
+| Enfoque | MAE | RMSE | R² | Gasto futuro que capta el top 20% |
+|---|---|---|---|---|
+| Al azar | — | — | — | 20.0% |
+| Línea base (mismo gasto que en ene–feb) | 4,691 | 6,738 | 0.70 | 33.4% |
+| **Modelo lineal (ElasticNet + Optuna)** | **3,273** | **4,688** | **0.85** | **35.3%** |
+| Gradient boosting (HistGB + Optuna) | 3,272 | 4,688 | 0.85 | 35.3% |
+| Oráculo (conoce el futuro) | 0 | 0 | 1.00 | 37.7% |
+
+- **Modelo elegido: lineal.** El gradient boosting con Optuna empata (RMSE de CV 4,763 vs. 4,761); por la regla de selección se queda el modelo más simple, que es más fácil de explicar e implementar.
+- **Mejora sobre la línea base:** +1.9 puntos del gasto futuro dentro de la campaña (IC 95% bootstrap: +1.8 a +2.1), unos **39 millones** (extrapolado a toda la base) de gasto de mar–abr adicional cubierto en toda la base. El modelo cierra el 87% de la brecha entre elegir al azar y el oráculo.
+- **Una sola variable explica casi todo:** las unidades por compra. El resto del gasto es azar (frecuencia Poisson y precios al azar) y ningún modelo lo puede predecir.
+- **Lista de campaña:** `data/07_model_output/lista_campana.csv` ordena a los 98,759 clientes por gasto predicho para may–jun (con su comportamiento de mar–abr) y marca el 20% a contactar.
+
 ## Instalación
 
 Requiere Python 3.10 o superior.
@@ -52,7 +71,7 @@ Diagrama entidad-relación: [`docs/erd.png`](docs/erd.png).
 ## Ejecución
 
 ```bash
-kedro run                        # pipeline completo (~35 s con el dataset completo)
+kedro run                        # pipeline completo (~3 min con el dataset completo)
 kedro run --env muestra          # con la muestra
 kedro run --pipeline exploracion # un solo pipeline
 pytest                           # pruebas
@@ -66,7 +85,8 @@ ruff check . && ruff format --check .
 | `carga_limpieza` | `generar_reporte_calidad`, `limpiar_ventas`, `construir_ventas_primarias` | `reporte_calidad_datos.json`, `ventas_primarias.parquet` (con el ingreso recalculado) |
 | `transformacion` | `construir_tabla_modelo` | `tabla_modelo.parquet`: un cliente por fila, variables de ene–feb y objetivo de mar–abr |
 | `exploracion` | `medir_estabilidad`, `evaluar_segmentacion`, `perfilar_regiones`, `perfilar_tiempo` y 3 gráficas | JSON y PNG en `data/08_reporting/` |
-| `entrenamiento` / `evaluacion` | *(en construcción)* | Línea base, modelo con Optuna, métricas |
+| `entrenamiento` | `dividir_clientes`, `optimizar_lineal`, `optimizar_gradient_boosting`, `seleccionar_modelo` | Modelos en `data/06_models/`, `intentos_optuna.csv` |
+| `evaluacion` | `predecir_prueba`, `calcular_metricas`, `explicar_modelo`, `auditar_ciudades`, `puntuar_clientes` y 2 gráficas | `metricas_modelo.json`, `importancia_variables.json`, `auditoria_ciudades.csv`, `lista_campana.csv` |
 
 Parámetros en `conf/base/parameters_*.yml` (ventanas de tiempo, limpieza, segmentación) y datos en `conf/base/catalog.yml`.
 
