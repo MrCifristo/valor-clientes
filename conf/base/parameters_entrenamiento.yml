@@ -1,0 +1,39 @@
+# Parámetros de los pipelines entrenamiento y evaluacion.
+modelo:
+  semilla: 42
+  proporcion_prueba: 0.2
+  objetivo: ingreso_objetivo
+  # Variables de ene–feb. Quedan fuera:
+  # - cliente_id: es un identificador. En estos datos sintéticos tiene correlación
+  #   0.999 con unidades_por_compra (el generador asignó la cantidad según el ID),
+  #   un artefacto que no se repetiría con clientes nuevos.
+  # - ciudad: sin efecto en el gasto (prueba F, p = 0.83); se audita aparte.
+  # - compras_objetivo: también es del futuro.
+  variables:
+    - n_compras
+    - dias_activos
+    - recencia_dias
+    - unidades_total
+    - unidades_por_compra
+    - ingreso
+    - ticket_medio
+    - precio_medio
+    - pct_descuento
+    - "cat_*"
+  # El gradient boosting solo reemplaza al lineal si baja el RMSE de CV más de 1%.
+  tolerancia_rmse: 0.01
+
+# Búsqueda de hiperparámetros: un estudio de Optuna por familia, mismos folds.
+optuna:
+  n_trials: 30
+  n_splits: 5
+  espacios:
+    lineal:
+      alpha: {tipo: float, bajo: 1.0e-4, alto: 100.0, log: true}
+      l1_ratio: {tipo: float, bajo: 0.01, alto: 1.0}
+    gradient_boosting:
+      learning_rate: {tipo: float, bajo: 0.01, alto: 0.3, log: true}
+      max_iter: {tipo: int, bajo: 50, alto: 300}
+      max_depth: {tipo: int, bajo: 2, alto: 8}
+      min_samples_leaf: {tipo: int, bajo: 20, alto: 400, log: true}
+      l2_regularization: {tipo: float, bajo: 1.0e-6, alto: 10.0, log: true}

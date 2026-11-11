@@ -1,0 +1,14 @@
+# Parámetros del pipeline evaluacion.
+evaluacion:
+  semilla: 42
+  # Proporción de clientes que Marketing puede contactar (métrica principal: 20%).
+  fraccion_campana: 0.2
+  fracciones_curva: [0.1, 0.2, 0.3, 0.5]
+  # Remuestreos para el intervalo de confianza de la mejora sobre la línea base.
+  n_bootstrap: 1000
+  # Permutation importance: repeticiones y tamaño máximo de la muestra de prueba.
+  repeticiones_importancia: 5
+  muestra_importancia: 5000
+  # Segmentos de la lista de campaña: proporción de clientes en cada uno, de mayor
+  # a menor valor predicho. "Top" coincide con el 20% de la campaña.
+  segmentos_valor: {Top: 0.2, Alto: 0.3, Medio: 0.3, Bajo: 0.2}

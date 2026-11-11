@@ -6,9 +6,14 @@ from kedro.framework.startup import bootstrap_project
 
 def test_pipelines_registrados():
     bootstrap_project(Path(__file__).resolve().parents[1])
-    assert {"carga_limpieza", "transformacion", "exploracion", "__default__"} <= set(
-        pipelines
-    )
+    assert {
+        "carga_limpieza",
+        "transformacion",
+        "exploracion",
+        "entrenamiento",
+        "evaluacion",
+        "__default__",
+    } <= set(pipelines)
     nodos = {n.name for n in pipelines["__default__"].nodes}
     assert {
         "generar_reporte_calidad",
@@ -17,4 +22,11 @@ def test_pipelines_registrados():
         "construir_tabla_modelo",
         "medir_estabilidad",
         "evaluar_segmentacion",
+        "dividir_clientes",
+        "optimizar_lineal",
+        "optimizar_gradient_boosting",
+        "seleccionar_modelo",
+        "predecir_prueba",
+        "calcular_metricas",
+        "puntuar_clientes",
     } <= nodos
