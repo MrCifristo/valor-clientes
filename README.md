@@ -41,7 +41,7 @@ Sobre 19,752 clientes de prueba que no se usaron para entrenar ni para ajustar h
 | Oráculo (conoce el futuro) | 0 | 0 | 1.00 | 37.7% |
 
 - **Modelo elegido: lineal.** El gradient boosting con Optuna empata (RMSE de CV 4,763 vs. 4,761); por la regla de selección se queda el modelo más simple, que es más fácil de explicar e implementar.
-- **Mejora sobre la línea base:** +1.9 puntos del gasto futuro dentro de la campaña (IC 95% bootstrap: +1.8 a +2.1), unos **39 millones** (extrapolado a toda la base) de gasto de mar–abr adicional cubierto en toda la base. El modelo cierra el 87% de la brecha entre elegir al azar y el oráculo.
+- **Mejora sobre la línea base:** +1.9 puntos del gasto futuro dentro de la campaña (IC 95% bootstrap: +1.8 a +2.1), unos **39 millones** de gasto de mar–abr adicional cubierto (extrapolado a toda la base desde el conjunto de prueba). El modelo cierra el 87% de la brecha entre elegir al azar y el oráculo.
 - **Una sola variable explica casi todo:** las unidades por compra. El resto del gasto es azar (frecuencia Poisson y precios al azar) y ningún modelo lo puede predecir.
 - **Lista de campaña:** `data/07_model_output/lista_campana.csv` ordena a los 98,759 clientes por gasto predicho para may–jun (con su comportamiento de mar–abr) y marca el 20% a contactar.
 
@@ -71,7 +71,7 @@ Diagrama entidad-relación: [`docs/erd.png`](docs/erd.png).
 ## Ejecución
 
 ```bash
-kedro run                        # pipeline completo (~3 min con el dataset completo)
+kedro run                        # pipeline completo (3 a 8 min con el dataset completo, según la máquina)
 kedro run --env muestra          # con la muestra
 kedro run --pipeline exploracion # un solo pipeline
 pytest                           # pruebas
